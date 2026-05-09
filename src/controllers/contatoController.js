@@ -4,8 +4,8 @@ class ContatoController {
     validarNome(nome) {
         if (!nome) return false;
         const palavras = nome.trim().split(/\s+/);
-        if (palavras.length < 2) return false;
-        return palavras.every(p => p.length >= 3);
+        const palavrasValidas = palavras.filter(p => p.length >= 3);
+        return palavrasValidas.length >= 2;
     }
 
     async criar(req, res) {
