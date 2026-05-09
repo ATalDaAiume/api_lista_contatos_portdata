@@ -1,15 +1,24 @@
-const express = require('express')
-const ContatoController = require('./controllers/contatoController')
+require('dotenv').config();
+const express = require('express');
+const database = require('./config/database');
+const contatoController = require('./controller/contato');
 
-const app = express()
+const app = express();
+app.use(express.json());
 
-app.use(express.json())
+app.post('/contatos', contatoController.criar);
+app.get('/contatos', contatoController.listar);
+app.patch('/contatos/:id', contatoController.alterar);
+app.delete('/contatos/:id', contatoController.deletar);
 
-app.post('/api/contatos', ContatoController.insert)
-app.get('/api/contatos', ContatoController.findAll)
-app.put('/api/contatos', ContatoController.update)
-app.delete('/api/contatos/:id', ContatoController.remove)
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000')
-})
+database.db.sync()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error('Database connection error:', error);
+    });

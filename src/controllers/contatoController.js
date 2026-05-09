@@ -1,29 +1,68 @@
-const Contato = require('../models/contato')
+const Contato = require('../model/contato');
 
 class ContatoController {
-    static insert(req, res) {
-        const { id, nome, telefone } = req.body
-        const contato = new Contato(id, nome, telefone)
-        contato.save()
-        res.status(201).json(contato)
+    validarNome(nome) {
+        if (!nome) return false;
+        const palavras = nome.trim().split(/\s+/);
+        if (palavras.length < 2) return false;
+        return palavras.every(p => p.length >= 3);
     }
 
-    static findAll(req, res) {
-        const contatos = contato.fetchAll()
-        res.json(contatos)
+    async criar(req, res) {
+        try {
+            const { nome, telefone } = req.body;
+
+            if (!new ContatoController().validarNome(nome)) {
+                return res.status(400).send();
+            }
+
+            const contato = await Contato.create({ nome, telefone });
+            return res.status(201).send(contato);
+        } catch (error) {
+            return res.status(400).send();
+        }
     }
 
-    static update(req, res) {
-        const { id, nome } = req.body
-        Contato.updateName(id, nome)
-        res.status(200).json({ message: "Contato atualizado" })
+    async listar(req, res) {
+        try {
+            const contatos = await Contato.findAll();
+            return res.status(200).send(contatos);
+        } catch (error) {
+            return res.status(400).send();
+        }
     }
 
-    static remove(req, res) {
-        const { id } = req.params
-        Contato.removeById(Number(id))
-        res.status(200).json({ message: "Contato deletado" })
+    async alterar(req, res) {
+        try {
+            const { id } = req.params;
+            const { nome, telefone } = req.body;
+
+            if (!new ContatoController().validarNome(nome)) {
+                return res.status(400).send();
+            }
+
+            const contato = await Contato.findByPk(id);
+            if (!contato) return res.status(404).send();
+
+            await contato.update({ nome, telefone });
+            return res.status(200).send(contato);
+        } catch (error) {
+            return res.status(400).send();
+        }
+    }
+
+    async deletar(req, res) {
+        try {
+            const { id } = req.params;
+            const contato = await Contato.findByPk(id);
+            if (!contato) return res.status(404).send();
+
+            await contato.destroy();
+            return res.status(204).send();
+        } catch (error) {
+            return res.status(400).send();
+        }
     }
 }
 
-module.exports = ContatoController
+module.exports = new ContatoController();

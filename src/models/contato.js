@@ -1,32 +1,25 @@
-let contatos = []
+const database = require('../config/database');
 
 class Contato {
-    constructor(id, nome, telefone) {
-        this.id = id
-        this.nome = nome
-        this.telefone = telefone
-    }
-
-    save() {
-        contatos.push(this)
-    }
-
-    static fetchAll() {
-        return contatos
-    }
-
-    static findById(id) {
-        return contatos.find(contato => contato.id === id)
-    }
-
-    static removeById(id) {
-        contatos = contatos.filter(contato => contato.id !== id)
-    }
-
-    static updateName(id, nome) {
-        const contato = contatos.find(contato => contato.id === id)
-        if (contato) contato.nome = nome
+    constructor() {
+        this.model = database.db.define('contatos', {
+            id: {
+                type: database.db.Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
+            },
+            nome: {
+                type: database.db.Sequelize.STRING,
+                allowNull: false
+            },
+            telefone: {
+                type: database.db.Sequelize.STRING,
+                allowNull: false
+            }
+        }, {
+            timestamps: false
+        });
     }
 }
 
-module.exports = Contato
+module.exports = (new Contato).model;
