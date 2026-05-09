@@ -1,14 +1,14 @@
 const express = require('express')
-const ContactController = require('./controllers/contactController')
+const ContatoController = require('./controllers/contatoController')
 
 const app = express()
 
 app.use(express.json())
 
-app.post('/api/contacts', ContactController.insert)
-app.get('/api/contacts', ContactController.findAll)
-app.put('/api/contacts', ContactController.update)
-app.delete('/api/contacts/:id', ContactController.remove)
+app.post('/api/contatos', ContatoController.insert)
+app.get('/api/contatos', ContatoController.findAll)
+app.put('/api/contatos', ContatoController.update)
+app.delete('/api/contatos/:id', ContatoController.remove)
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000')

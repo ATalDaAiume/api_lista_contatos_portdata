@@ -1,32 +1,32 @@
 let contacts = []
 
 class Contact {
-    constructor(id, name, telefone) {
+    constructor(id, nome, telefone) {
         this.id = id
-        this.name = name
+        this.nome = nome
         this.telefone = telefone
     }
 
     save() {
-        contacts.push(this)
+        contatos.push(this)
     }
 
     static fetchAll() {
-        return contacts
+        return contatos
     }
 
     static findById(id) {
-        return contacts.find(contact => contact.id === id)
+        return contatos.find(contato => contato.id === id)
     }
 
     static removeById(id) {
-        contacts = contacts.filter(contact => contact.id !== id)
+        contatos = contatos.filter(contato => contato.id !== id)
     }
 
-    static updateName(id, name) {
-        const contact = contacts.find(contact => contact.id === id)
-        if (contact) contact.name = name
+    static updateName(id, nome) {
+        const contato = contatos.find(contato => contato.id === id)
+        if (contato) contato.nome = nome
     }
 }
 
-module.exports = Contact
+module.exports = Contato
