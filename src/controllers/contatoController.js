@@ -2,8 +2,8 @@ const Contato = require('../models/contato')
 
 class ContatoController {
     static insert(req, res) {
-        const { id, name, telefone } = req.body
-        const contato = new Contato(id, name, telefone)
+        const { id, nome, telefone } = req.body
+        const contato = new Contato(id, nome, telefone)
         contato.save()
         res.status(201).json(contato)
     }
@@ -14,8 +14,8 @@ class ContatoController {
     }
 
     static update(req, res) {
-        const { id, name } = req.body
-        Contato.updateName(id, name)
+        const { id, nome } = req.body
+        Contato.updateName(id, nome)
         res.status(200).json({ message: "Contato atualizado" })
     }
 

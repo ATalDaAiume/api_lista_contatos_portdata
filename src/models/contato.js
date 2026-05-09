@@ -1,6 +1,6 @@
-let contacts = []
+let contatos = []
 
-class Contact {
+class Contato {
     constructor(id, nome, telefone) {
         this.id = id
         this.nome = nome
