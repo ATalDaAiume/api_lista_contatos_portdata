@@ -1,4 +1,4 @@
-const Contato = require('../model/contato');
+const Contato = require('../models/contato');
 
 class ContatoController {
     validarNome(nome) {

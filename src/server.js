@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const database = require('./config/database');
-const contatoController = require('./controller/contato');
+const contatoController = require('./controllers/contatoController');
 
 const app = express();
 app.use(express.json());
